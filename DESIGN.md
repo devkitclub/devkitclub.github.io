@@ -2,7 +2,7 @@
 
 ## Direction
 
-Dark developer editorial, with full-width chapter canvases and a photographic hero. The reference is [TasteCode](https://tastecode.dev/), used for its product clarity, restrained software typography, and scroll-led storytelling. No source code or artwork was copied from that site.
+Dark developer editorial, with full-width chapter canvases and a pointer-reactive 3D terminal hero. The reference is [TasteCode](https://tastecode.dev/), used for its product clarity, restrained software typography, and scroll-led storytelling. No source code or artwork was copied from that site.
 
 The prior boxed illustration, narrow wrapper, warm gray palette, system font, and repeated panels were retired. Existing routes, anchor IDs, product links, copy controls, language selection, and email integration were retained.
 
@@ -49,8 +49,22 @@ GSAP 3.15.0 and ScrollTrigger are bundled locally. No scroll smoothing library o
 
 The device’s reduced-motion preference disables choreography and pinning. A footer control also lets a visitor reduce motion, with the preference saved locally. Static content remains usable if JavaScript or GSAP fails to load.
 
-## Hero asset
+## CLI / systems revision
 
-The built-in Image Generation tool created `assets/hero-background.webp`. Production prompt: remove all text, buttons, navigation and logos from the approved hero concept, preserving only the macro photograph of ribbed black aluminum, restrained cyan edge light, dark left-side negative space, and diagonal perspective.
+The existing visual language takes precedence over random font/layout changes suggested by the motion skill. Preserve the two-line left-aligned hero and full-width chapters; expand the Interest / Desire portion with concept exploration and engineering standards. The redesign skill informed the targeted audit and preservation of existing functionality; the GSAP skill informed input-driven depth, staged introductions, and scroll-linked enumeration.
 
-The source is an illustration of industrial material, used as a brand background; it is not a photograph of a DevKit Club physical product.
+Use monospaced controls and filesystem language sparingly, with Chivo reserved for large editorial headings. Terminal content is an illustrative directory of the available starter and future concepts, not a functional shell or live telemetry. The terminal is a decorative brand object, not a physical product for sale.
+
+| Scene | Geometry | Input |
+| --- | --- | --- |
+| Hero | Six-sided terminal slab, inset screen, vented casing | Fine-pointer tilt on an inner rig; scroll rotation/translation on an outer rig |
+| ImportKit | Four layered boards with front, rear and edge faces | Scroll spreads depth from 16px spacing to 120px, while rotating the assembly |
+| Engineering | Three six-sided packet cubes | Scroll brings dispersed shapes together and rotates their shared assembly |
+| Catalog | Native details rows with rotating number entrances | Scroll reveals numbers; filters and native summary controls expose content |
+| Validation | Four-item contiguous sequence, 2×2 on mobile | Staggered scroll-linked introduction |
+
+The validation grid has four cells occupying four desktop columns or two complete mobile rows, with no empty slots. No arbitrary bento cards or testimonials are added. Candidate states remain explicit: all ten are proposals; no price, success metric, or shipping promise is inferred from the draft roadmap.
+
+All 3D geometry is authored in CSS with preserve-3d/perspective. No raster images are generated for geometry that must rotate interactively. The previous background image is retained but is neither loaded nor displayed. The new styles are isolated in `objects.css` to make this extension reviewable.
+
+No animation is essential to reading or navigation. No-JS uses static 3D illustrations and unfiltered native details. Reduced motion removes pointer handling and scroll animation. Mobile layouts isolate the hero object below the copy, collapse the catalog columns, and remove setup pinning. The motion preference is respected before choreography begins.
