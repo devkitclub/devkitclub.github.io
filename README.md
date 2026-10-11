@@ -40,21 +40,17 @@ Motion also retains masked text entrances, section rules, a tilting code surface
 
 ## Email signup
 
-No email service is connected. The site explicitly says email updates are coming soon and links to GitHub release notifications. It does not collect addresses or pretend to register subscribers.
+The website links to the MailerLite-hosted signup form:
 
-To enable the email CTA:
+https://preview.mailerlite.io/forms/2704240/201068731093223124/share
 
-1. Create a real provider-hosted form with consent, privacy information, confirmation, and unsubscribe handling
-2. Put its public HTTPS URL in `signupUrl` in `site-config.js`; never add an API key
-3. Test the entire subscription and unsubscribe flow with an address you control
+The URL is configured in `site-config.js` and in the HTML updates link so signup also works without JavaScript. Keep both URLs synchronized if the form changes. No API key or embedded provider script is used.
 
-Empty, invalid, non-HTTPS, or credential-bearing URLs keep the GitHub fallback. The hosted form owns validation and submission handling.
+The owner reported a successful subscription on October 11, 2026. Confirmation delivery, unsubscribe behavior, and welcome automation have not been independently verified. The provider handles form validation and subscriptions; the website does not claim signup success itself.
 
-## Later: GitHub Pages
+## GitHub Pages
 
-These files have not been uploaded or deployed. The intended repository remains `devkitclub/devkitclub.github.io`; confirm its existence and ownership at publishing time. Upload the contents of this directory to its root, preserving `assets/` and `.nojekyll`, then configure GitHub Pages for that source. All internal paths are relative, so a project subpath also works.
-
-The domain is not assumed live, and canonical/social image URLs should be added after the actual deployment address is verified. No email service or paid plan was created.
+Source is in `devkitclub/devkitclub.github.io`, targeting https://devkitclub.github.io. Phase 1 completion was confirmed by the owner. Check the repository’s Pages deployment status for each change. All internal paths are relative.
 
 ## Verification and limits
 
