@@ -7,6 +7,8 @@
   const media = window.matchMedia('(prefers-reduced-motion: reduce)');
   const toggle = document.querySelector('.motion-toggle');
   const walk = document.querySelector('.walkthrough');
+  const process = document.querySelector('.process');
+  const dataVisual = document.querySelector('.data-visual');
   const steps = [...document.querySelectorAll('.step')];
   const stepLinks = [...document.querySelectorAll('.step-nav a')];
   let manualReduce = false, context, responsive, processTimeline, introPlayed = false, removePointer;
@@ -27,6 +29,11 @@
     walk.classList.remove('is-pinned');
     walk.classList.remove('is-mobile-readable');
     walk.style.removeProperty('--step-height');
+    process.classList.remove('is-phone-scene');
+    process.style.removeProperty('--scene-height');
+    process.style.removeProperty('--scene-scroll');
+    dataVisual.classList.remove('is-phone-scene');
+    dataVisual.style.removeProperty('--data-height');
     markStep(0, false);
   }
   function build() {
@@ -54,20 +61,24 @@
         .to('.object-orbit',{y:150,rotationY:40,rotationZ:-18,scale:.78,ease:'none'},0)
         .to('.hero-grid',{y:100,ease:'none'},0)
         .to('.hero-copy',{y:-85,opacity:0,ease:'none',duration:.62},.02);
+      gsap.to('.hero-type-scroll',{y:-130,x:70,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:.5}});
       // The pointer rig sits inside the scroll orbit: each input owns a transform.
       if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
         const hero = document.querySelector('.hero');
         const rig = document.querySelector('.pointer-rig');
         const turnX = gsap.quickTo(rig,'rotationX',{duration:.8,ease:'power3.out'});
         const turnY = gsap.quickTo(rig,'rotationY',{duration:.8,ease:'power3.out'});
+        const textX = gsap.quickTo('.hero-type-pointer','x',{duration:1,ease:'power3.out'});
+        const textY = gsap.quickTo('.hero-type-pointer','y',{duration:1,ease:'power3.out'});
         const move = event => {
           if (event.pointerType === 'touch') return;
           const bounds = hero.getBoundingClientRect();
           const x = Math.max(-.5,Math.min(.5,(event.clientX-bounds.left)/bounds.width-.5));
           const y = Math.max(-.5,Math.min(.5,(event.clientY-bounds.top)/bounds.height-.5));
           turnX(-y*16); turnY(x*22);
+          textX(x*45);textY(y*32);
         };
-        const reset = () => {turnX(0);turnY(0);};
+        const reset = () => {turnX(0);turnY(0);textX(0);textY(0);};
         hero.addEventListener('pointermove',move,{passive:true});
         hero.addEventListener('pointerleave',reset);
         removePointer = () => {hero.removeEventListener('pointermove',move);hero.removeEventListener('pointerleave',reset);};
@@ -78,12 +89,14 @@
       gsap.from('.code-workbench',{y:80,rotationX:7,scale:.97,opacity:.35,transformPerspective:1200,ease:'none',scrollTrigger:{trigger:'.tool-layout',start:'top 95%',end:'top 40%',scrub:1}});
       gsap.utils.toArray('.chapter-rule').forEach(line => gsap.from(line,{scaleX:0,ease:'none',scrollTrigger:{trigger:line.parentElement,start:'top 95%',end:'top 45%',scrub:1}}));
       gsap.from('.updates h2',{x:-50,opacity:.15,ease:'none',scrollTrigger:{trigger:'.updates',start:'top 95%',end:'top 55%',scrub:1}});
-      const dataVisual = document.querySelector('.data-visual');
-      const pinData = window.matchMedia('(max-width: 899px)').matches && window.innerHeight >= 600 && dataVisual.getBoundingClientRect().height <= window.innerHeight-110;
-      const data = gsap.timeline({scrollTrigger:{trigger:dataVisual,start:pinData?'top 90px':'top 85%',end:pinData?'+=650':'bottom 35%',pin:pinData,scrub:.6,anticipatePin:1,invalidateOnRefresh:true}});
-      data.fromTo('.data-orbit',{rotationX:64,rotationZ:-58},{rotationX:52,rotationZ:-22,duration:1,ease:'none'},0);
+      const phone = window.matchMedia('(max-width: 899px)').matches;
+      const dataHeight = dataVisual.querySelector('.data-sticky').getBoundingClientRect().height;
+      const pinData = phone && dataHeight <= window.innerHeight-110;
+      if(pinData){dataVisual.style.setProperty('--data-height',`${Math.ceil(dataHeight)}px`);dataVisual.classList.add('is-phone-scene');}
+      const data = gsap.timeline({scrollTrigger:{trigger:dataVisual,start:pinData?'top 90px':'top 85%',end:pinData?'+=600':'bottom 35%',scrub:.3,invalidateOnRefresh:true}});
+      data.fromTo('.data-orbit',{rotationX:64,rotationY:0,rotationZ:-58},{rotationX:52,rotationY:0,rotationZ:-22,duration:1,ease:'none'},0);
       gsap.utils.toArray('.data-layer').forEach((layer,i) => {
-        data.fromTo(layer,{z:(1.5-i)*16},{z:(1.5-i)*120,duration:.7,ease:'power2.inOut'},i*.07);
+        data.fromTo(layer,{z:(1.5-i)*16},{z:(1.5-i)*(phone?85:120),duration:.7,ease:'power2.inOut'},i*.07);
       });
       gsap.timeline({scrollTrigger:{trigger:'.engineering',start:'top 80%',end:'bottom 25%',scrub:1}})
         .fromTo('.packet-orbit',{rotationY:-45,rotationZ:-18},{rotationY:25,rotationZ:12,duration:1,ease:'none'},0)
@@ -119,7 +132,9 @@
       markStep(0);
       const clock = {value:0};
       let active = 0;
-      processTimeline = gsap.timeline({scrollTrigger:{trigger:walk,start:`top ${headerHeight}px`,end:()=>`+=${Math.round(walk.clientHeight*(phone?2.4:2.6))}`,pin:true,scrub:phone?.35:.65,anticipatePin:1,invalidateOnRefresh:true,onUpdate:self=>{
+      const distance=Math.round(walk.clientHeight*(phone?2:2.6));
+      if(phone){process.style.setProperty('--scene-height',`${walk.clientHeight}px`);process.style.setProperty('--scene-scroll',`${distance}px`);process.classList.add('is-phone-scene');}
+      processTimeline = gsap.timeline({scrollTrigger:{trigger:phone?process:walk,start:`top ${headerHeight}px`,end:`+=${distance}`,pin:!phone,refreshPriority:10,scrub:phone?.15:.65,anticipatePin:1,invalidateOnRefresh:true,onUpdate:self=>{
         const next = self.progress < .34 ? 0 : self.progress < .67 ? 1 : 2;
         if (next !== active) { active = next; markStep(active); }
       }}});
@@ -130,9 +145,9 @@
           .fromTo(steps[i],{autoAlpha:0,y:80},{autoAlpha:1,y:0,duration:.13,ease:'power3.out'},at+.035)
           .to(reel,{y:()=>-i*document.querySelector('.number-window').clientHeight,duration:.15,ease:'power3.inOut'},at);
       });
-      return () => { processTimeline = null; walk.classList.remove('is-pinned'); walk.style.removeProperty('--step-height'); markStep(0,false); };
+      return () => { processTimeline = null; process.classList.remove('is-phone-scene');walk.classList.remove('is-pinned'); walk.style.removeProperty('--step-height'); markStep(0,false); };
     });
-    ScrollTrigger.refresh();
+    ScrollTrigger.sort();ScrollTrigger.refresh();
   }
   stepLinks.forEach((link,index) => link.addEventListener('click', event => {
     const trigger = processTimeline?.scrollTrigger;
