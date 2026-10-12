@@ -1,6 +1,6 @@
 /* Keep scroll scenes inside the usable viewport, including phone browser chrome. */
 .walkthrough.is-pinned{height:auto;min-height:calc(100svh - 80px);padding-block:30px;justify-content:center}
-.is-pinned .step-stage{height:var(--step-height);min-height:var(--step-height)}
+.is-pinned .step-stage{height:var(--step-height);min-height:var(--step-height);overflow:clip;isolation:isolate}
 .is-pinned .process-layout{min-height:0}
 .is-mobile-readable .process-index{position:sticky;top:80px;align-self:start}
 .hero-type-field{position:absolute;inset:-100px -12%;z-index:-1;overflow:hidden;pointer-events:none;transform:rotate(-12deg);mask-image:linear-gradient(90deg,transparent,#000 70%)}

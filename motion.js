@@ -140,9 +140,9 @@
       }}});
       processTimeline.to(clock,{value:1,duration:1,ease:'none'},0);
       [1,2].forEach(i => {
-        const at = i === 1 ? .29 : .62;
-        processTimeline.to(steps[i-1],{autoAlpha:0,y:-60,duration:.1,ease:'power2.in'},at)
-          .fromTo(steps[i],{autoAlpha:0,y:80},{autoAlpha:1,y:0,duration:.13,ease:'power3.out'},at+.035)
+        const at = i === 1 ? .275 : .605;
+        processTimeline.to(steps[i-1],{autoAlpha:0,y:-18,duration:.06,ease:'power2.in'},at)
+          .fromTo(steps[i],{autoAlpha:0,y:28},{autoAlpha:1,y:0,duration:.08,ease:'power3.out'},at+.065)
           .to(reel,{y:()=>-i*document.querySelector('.number-window').clientHeight,duration:.15,ease:'power3.inOut'},at);
       });
       return () => { processTimeline = null; process.classList.remove('is-phone-scene');walk.classList.remove('is-pinned'); walk.style.removeProperty('--step-height'); markStep(0,false); };

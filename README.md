@@ -54,6 +54,8 @@ Source is in `devkitclub/devkitclub.github.io`, targeting https://devkitclub.git
 
 ## Verification and limits
 
+October 12 mobile repair: phone scenes now use native CSS sticky containers with scroll-driven transforms, avoiding competing GSAP pin offsets. Setup steps exit fully before the next enters, and the stage clips moving text. The hero uses reactive decorative monospace text, with the 3D terminal visible only on desktop. Changed assets have versioned URLs to avoid cached CSS/JS mismatches. `mobile-preview.html` provides selectable viewport frames for live responsive browser checks; it is not a physical-device emulator. The existing MailerLite connection is preserved.
+
 JavaScript syntax, HTML local links and fragments, both stylesheets, concept counts/filters/deep links, pointer response and cleanup, actual DOM controls, signup fallbacks, and motion lifecycle/step navigation were checked. No supported browser-preview tool is available in this environment, so rendered desktop/mobile layout, physical perspective, scroll smoothness, and Lighthouse have not been verified. Review the standalone preview in a browser before publishing.
 
 Existing RepoReady Lite content follows its README reviewed on 2026-10-10, blob `e0a79c1a72d3d4a158748ceb8e9b1806a84354b0`; the repository was not revalidated in this revision. The code shown is a labeled excerpt, with complete templates linked on GitHub. Roadmap content follows the supplied `02-devkit-club-premium-top-10.md`, dated 2026-10-10. Proposed demos and engineering standards are goals, not completed results.
