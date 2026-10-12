@@ -32,6 +32,7 @@
     stepLink.textContent = `Open the ${stack.label} template ↗`;
     document.getElementById('guide-link').href = base + stack.guide;
     status.textContent = ''; copyButton.textContent = 'Copy commands';
+    window.dispatchEvent(new Event('devkit:layout'));
     window.ScrollTrigger?.refresh();
   }));
   copyButton.hidden = false;

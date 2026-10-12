@@ -3,6 +3,7 @@
   const {gsap, ScrollTrigger} = window;
   if (!gsap || !ScrollTrigger) return;
   gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.config({ignoreMobileResize:true});
   const media = window.matchMedia('(prefers-reduced-motion: reduce)');
   const toggle = document.querySelector('.motion-toggle');
   const walk = document.querySelector('.walkthrough');
@@ -24,6 +25,8 @@
     responsive?.revert(); context?.revert();
     responsive = context = processTimeline = null;
     walk.classList.remove('is-pinned');
+    walk.classList.remove('is-mobile-readable');
+    walk.style.removeProperty('--step-height');
     markStep(0, false);
   }
   function build() {
@@ -75,7 +78,9 @@
       gsap.from('.code-workbench',{y:80,rotationX:7,scale:.97,opacity:.35,transformPerspective:1200,ease:'none',scrollTrigger:{trigger:'.tool-layout',start:'top 95%',end:'top 40%',scrub:1}});
       gsap.utils.toArray('.chapter-rule').forEach(line => gsap.from(line,{scaleX:0,ease:'none',scrollTrigger:{trigger:line.parentElement,start:'top 95%',end:'top 45%',scrub:1}}));
       gsap.from('.updates h2',{x:-50,opacity:.15,ease:'none',scrollTrigger:{trigger:'.updates',start:'top 95%',end:'top 55%',scrub:1}});
-      const data = gsap.timeline({scrollTrigger:{trigger:'.import-feature',start:'top 80%',end:'bottom 35%',scrub:1.1}});
+      const dataVisual = document.querySelector('.data-visual');
+      const pinData = window.matchMedia('(max-width: 899px)').matches && window.innerHeight >= 600 && dataVisual.getBoundingClientRect().height <= window.innerHeight-110;
+      const data = gsap.timeline({scrollTrigger:{trigger:dataVisual,start:pinData?'top 90px':'top 85%',end:pinData?'+=650':'bottom 35%',pin:pinData,scrub:.6,anticipatePin:1,invalidateOnRefresh:true}});
       data.fromTo('.data-orbit',{rotationX:64,rotationZ:-58},{rotationX:52,rotationZ:-22,duration:1,ease:'none'},0);
       gsap.utils.toArray('.data-layer').forEach((layer,i) => {
         data.fromTo(layer,{z:(1.5-i)*16},{z:(1.5-i)*120,duration:.7,ease:'power2.inOut'},i*.07);
@@ -94,14 +99,27 @@
       gsap.from('.validation-sequence li',{y:45,opacity:.15,stagger:.14,duration:.65,ease:'power2.out',scrollTrigger:{trigger:'.validation-sequence',start:'top 88%',end:'bottom 65%',scrub:1}});
     });
     responsive = gsap.matchMedia();
-    responsive.add('(min-width: 900px) and (min-height: 740px)', () => {
+    responsive.add('(min-width: 320px)', () => {
+      const phone = window.matchMedia('(max-width: 899px)').matches;
+      const headerHeight = phone ? 70 : 80;
       walk.classList.add('is-pinned');
+      const stepHeight = Math.ceil(Math.max(...steps.map(step => step.scrollHeight)));
+      walk.style.setProperty('--step-height',`${stepHeight}px`);
+      // Measure complete content rather than excluding phones by width.
+      // Short screens / large text retain sticky navigation and readable steps.
+      if (walk.getBoundingClientRect().height > window.innerHeight-headerHeight+2) {
+        walk.classList.remove('is-pinned');
+        walk.classList.add('is-mobile-readable');
+        walk.style.removeProperty('--step-height');
+        steps.forEach((step,index) => ScrollTrigger.create({trigger:step,start:`top ${headerHeight+100}px`,end:'bottom top',onEnter:()=>markStep(index,false),onEnterBack:()=>markStep(index,false)}));
+        return () => {walk.classList.remove('is-mobile-readable');markStep(0,false);};
+      }
       const reel = document.querySelector('.number-reel');
       gsap.set(steps.slice(1),{autoAlpha:0,y:80});
       markStep(0);
       const clock = {value:0};
       let active = 0;
-      processTimeline = gsap.timeline({scrollTrigger:{trigger:walk,start:'top top',end:()=>`+=${Math.round(window.innerHeight*2.6)}`,pin:true,scrub:.65,anticipatePin:1,invalidateOnRefresh:true,onUpdate:self=>{
+      processTimeline = gsap.timeline({scrollTrigger:{trigger:walk,start:`top ${headerHeight}px`,end:()=>`+=${Math.round(walk.clientHeight*(phone?2.4:2.6))}`,pin:true,scrub:phone?.35:.65,anticipatePin:1,invalidateOnRefresh:true,onUpdate:self=>{
         const next = self.progress < .34 ? 0 : self.progress < .67 ? 1 : 2;
         if (next !== active) { active = next; markStep(active); }
       }}});
@@ -112,7 +130,7 @@
           .fromTo(steps[i],{autoAlpha:0,y:80},{autoAlpha:1,y:0,duration:.13,ease:'power3.out'},at+.035)
           .to(reel,{y:()=>-i*document.querySelector('.number-window').clientHeight,duration:.15,ease:'power3.inOut'},at);
       });
-      return () => { processTimeline = null; walk.classList.remove('is-pinned'); markStep(0,false); };
+      return () => { processTimeline = null; walk.classList.remove('is-pinned'); walk.style.removeProperty('--step-height'); markStep(0,false); };
     });
     ScrollTrigger.refresh();
   }
@@ -132,11 +150,18 @@
   }
   toggle.addEventListener('click',()=>{manualReduce=!manualReduce;try{localStorage.setItem('devkit-reduce-motion',String(manualReduce));}catch(_){}build();});
   media.addEventListener?.('change',build);
+  window.addEventListener('devkit:layout',build);
   window.addEventListener('hashchange',followHash);
   window.addEventListener('pagehide',cleanup);
   window.addEventListener('pageshow',event=>{if(event.persisted)build();});
   document.querySelectorAll('details').forEach(item=>item.addEventListener('toggle',()=>ScrollTrigger.refresh()));
   build();
-  document.fonts?.ready.then(()=>{ScrollTrigger.refresh();followHash();});
+  document.fonts?.ready.then(()=>{build();followHash();});
+  let layoutWidth=window.innerWidth, resizeTimer;
+  window.addEventListener('resize',()=>{
+    if(window.innerWidth===layoutWidth)return;
+    clearTimeout(resizeTimer);
+    resizeTimer=setTimeout(()=>{layoutWidth=window.innerWidth;build();},150);
+  },{passive:true});
   window.addEventListener('load',()=>{ScrollTrigger.refresh();followHash();},{once:true});
 })();
