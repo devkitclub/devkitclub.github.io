@@ -51,48 +51,10 @@
     }
   });
 
-  // A transparent header is used only while the hero covers the header area.
-  const header = document.getElementById('site-header');
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver(([entry]) => header.classList.toggle('is-over-hero', entry.isIntersecting), {rootMargin:'-80px 0px 0px 0px',threshold:0}).observe(document.getElementById('hero'));
-    const navLinks = [...document.querySelectorAll('.nav a')];
-    const sections = navLinks.map(link => document.querySelector(link.getAttribute('href')));
-    const activeObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => { if (!entry.isIntersecting) return; navLinks.forEach(link => { if (link.getAttribute('href') === `#${entry.target.id}`) link.setAttribute('aria-current','location'); else link.removeAttribute('aria-current'); }); });
-    }, {rootMargin:'-15% 0px -55% 0px',threshold:0});
-    sections.forEach(section => activeObserver.observe(section));
-  }
-  // Native details remain fully usable without JS; filtering is progressive enhancement.
-  const filters = [...document.querySelectorAll('[data-filter]')];
-  const kits = [...document.querySelectorAll('.kit-row')];
-  const filterBar = document.querySelector('.catalog-filters');
-  filterBar.hidden = false;
-  function filterKits(collection) {
-    filters.forEach(button => button.setAttribute('aria-pressed',String(button.dataset.filter === collection)));
-    let count = 0;
-    kits.forEach(kit => {
-      kit.hidden = collection !== 'all' && kit.dataset.collection !== collection;
-      if (!kit.hidden) count++;
-    });
-    document.getElementById('catalog-count').textContent = `${count} concepts / 0 released`;
-    window.ScrollTrigger?.refresh();
-  }
-  filters.forEach(button => button.addEventListener('click',() => filterKits(button.dataset.filter)));
-  function openLinkedKit(scroll = true) {
-    const kit = kits.find(item => `#${item.id}` === location.hash);
-    if (!kit) return;
-    if (kit.hidden) filterKits('all');
-    kit.open = true;
-    window.ScrollTrigger?.refresh();
-    if (scroll) requestAnimationFrame(() => kit.scrollIntoView({block:'start',behavior:'instant'}));
-  }
-  window.addEventListener('hashchange',() => openLinkedKit());
-  window.addEventListener('load',() => openLinkedKit(),{once:true});
-  openLinkedKit(false);
   try {
     const signup = new URL(window.DEVKIT_CONFIG?.signupUrl || '');
     if (signup.protocol !== 'https:' || signup.username || signup.password) return;
-    document.getElementById('updates-description').textContent = 'Get news about free tools and the systems we’re exploring through our email list';
+    document.getElementById('updates-description').textContent = 'Get product releases, free tools, and practical guides in your inbox';
     const link = document.getElementById('updates-link'); link.href = signup.href; link.textContent = 'Join the email list ↗';
     document.getElementById('updates-note').textContent = 'The signup page explains consent and how to unsubscribe';
   } catch (_) { /* The GitHub releases fallback remains available. */ }

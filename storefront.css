@@ -1,0 +1,106 @@
+/* Storefront extensions: same full-width canvases, fonts, and cyan accent */
+.nav a[aria-current="page"]{color:var(--accent)}
+.site-menu{display:none}
+.footer-links{display:flex;flex-wrap:wrap;gap:20px}
+.footer .footer-links a{min-height:44px;display:inline-flex;align-items:center}
+.store-page main{padding-top:80px}
+.page-intro{padding:90px var(--gutter) 64px;border-bottom:1px solid var(--line);background:#080b0f}
+.page-intro h1{font-size:clamp(54px,7.5vw,122px);max-width:1050px;text-wrap:balance}
+.page-intro .lead{max-width:640px}
+.page-intro .kicker{margin-bottom:28px}
+.intro-bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:35px}
+.intro-meta{font:11px/1.8 'IBM Plex Mono',monospace;color:var(--accent);white-space:nowrap}
+.store-section{padding:64px var(--gutter) 110px}
+.store-section .catalog-toolbar{margin-bottom:40px}
+.store-section .catalog-filters button{font-size:12px}
+.product-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.product-card{background:var(--bg);padding:30px 34px;display:flex;flex-direction:column;min-width:0;position:relative}
+.product-card:hover{background:#0d151c}
+.card-top{display:flex;align-items:center;justify-content:space-between;gap:20px;font:10px 'IBM Plex Mono',monospace;color:var(--faint)}
+.availability{color:var(--accent);font:10px/1.6 'IBM Plex Mono',monospace}
+.card-visual{height:230px;position:relative;display:grid;place-items:center;overflow:hidden;perspective:1000px;margin:18px -10px 24px;background:radial-gradient(ellipse at center,#192d3470,transparent 70%)}
+.kit-object{position:relative;width:190px;height:132px;transform:rotateX(30deg) rotateY(-24deg) rotateZ(-10deg);transform-style:preserve-3d;transition:transform .65s var(--ease)}
+.product-card:hover .kit-object{transform:rotateX(20deg) rotateY(-12deg) rotateZ(-5deg) translateY(-8px)}
+.object-panel{position:absolute;inset:0;padding:15px;border:1px solid #73929b;background:linear-gradient(125deg,#354d57,#101f28);box-shadow:inset 0 0 0 5px #152933;font:10px 'IBM Plex Mono',monospace;color:#c0d7dd}
+.object-panel:before,.object-panel:after{content:'';position:absolute;border:1px solid #45636e;background:#172d39}
+.object-panel:before{height:14px;width:100%;left:-1px;bottom:-15px;transform-origin:top;transform:skewX(40deg)}
+.object-panel:after{width:12px;height:100%;right:-14px;top:6px;transform:skewY(50deg)}
+.object-panel strong{display:block;color:var(--accent);font:32px 'IBM Plex Mono',monospace;padding-top:14px;letter-spacing:-3px}
+.object-panel small{position:absolute;bottom:13px;left:15px;font:8px 'IBM Plex Mono',monospace;color:#a3bcc5}
+.object-panel.back{transform:translateZ(-28px);background:#12212b}
+.object-panel.middle{transform:translateZ(-14px)}
+.object-layers .object-panel.back,.object-batches .object-panel.back{transform:translateZ(-45px) translateX(8px)}
+.object-layers .object-panel.middle,.object-batches .object-panel.middle{transform:translateZ(-23px) translateX(4px)}
+.object-events .kit-object,.object-sync .kit-object{transform:rotateX(14deg) rotateY(-28deg) rotateZ(12deg)}
+.object-meter .object-panel strong{letter-spacing:2px}
+.object-compare .object-panel.back{transform:translateZ(-18px) translateX(58px)}
+.object-chunks .object-panel{background:repeating-linear-gradient(90deg,#203b46 0 30px,#11232d 30px 33px)}
+.object-ledger .object-panel{background:repeating-linear-gradient(0deg,#182c35 0 22px,#46626d 23px 24px)}
+.product-card h3{font-size:clamp(30px,3vw,50px);margin-bottom:15px}
+.product-card .card-summary{font-size:17px;line-height:1.6;max-width:450px;margin-bottom:24px;min-height:55px}
+.tech-tags{display:flex;gap:10px 16px;flex-wrap:wrap;font:10px/1.6 'IBM Plex Mono',monospace;color:var(--muted)}
+.tech-tags span:before{content:'+';color:var(--accent);margin-right:6px}
+.card-bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;border-top:1px solid var(--line);margin-top:28px;padding-top:24px}
+.price{color:var(--text);font-size:32px;letter-spacing:-.045em;line-height:1.2;font-variant-numeric:tabular-nums}
+.price small{display:block;font:9px/1.8 'IBM Plex Mono',monospace;color:var(--muted);letter-spacing:0;margin-top:6px}
+.card-bottom .text-link{padding-block:12px}
+.catalog-note{font:11px/1.8 'IBM Plex Mono',monospace;margin-top:28px;max-width:750px}
+.featured{background:#0e141a}
+.featured-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;margin-bottom:45px}
+.featured-heading h2{font-size:clamp(44px,5.2vw,90px)}
+.featured-heading .lead{max-width:450px;font-size:16px}
+.featured .product-card{background:#0b1117}
+.featured .product-card:hover{background:#101b23}
+.store-callout{border-block:1px solid var(--line);padding:64px var(--gutter);display:flex;justify-content:space-between;align-items:center;gap:35px;background:#10191f}
+.store-callout h2{font-size:clamp(32px,4vw,60px);margin-bottom:16px}
+.store-callout p{max-width:600px}
+.home-store .import-feature{margin-top:0;border-top:0;padding-top:0}
+.home-store .import-copy h2{font-size:clamp(55px,6.8vw,120px)}
+.home-store .build-log .updates{margin-top:0;padding-top:0;border-top:0}
+.resource-layout{display:grid;grid-template-columns:1.2fr 1fr;gap:8%;align-items:start}
+.resource-layout h2{font-size:clamp(40px,4.8vw,74px);margin-bottom:25px}
+.resource-layout .lead{margin-bottom:28px}
+.resource-list{margin:0;padding:0;list-style:none}
+.resource-list li{padding:22px 0;border-top:1px solid var(--line)}
+.resource-list strong{display:block;font-weight:500;margin-bottom:8px}
+.resource-list p{font-size:14px}
+.guide-list{list-style:none;padding:0;margin:0;counter-reset:guide}
+.guide-list li{counter-increment:guide;display:grid;grid-template-columns:60px 1fr auto;gap:30px;align-items:center;padding:34px 0;border-top:1px solid var(--line)}
+.guide-list li:before{content:counter(guide,decimal-leading-zero);font:13px 'IBM Plex Mono',monospace;color:var(--accent)}
+.guide-list h2{font-size:30px;margin-bottom:12px}
+.guide-list p{max-width:620px;font-size:15px}
+.guide-list .text-link{min-height:44px}
+.editorial{max-width:950px;padding:70px var(--gutter) 100px}
+.editorial h2{font-size:32px;margin-top:42px;margin-bottom:20px}
+.editorial h2:first-child{margin-top:0}
+.editorial p{margin-block:18px;line-height:1.8}
+.editorial a:not(.button){text-decoration:underline;text-underline-offset:5px;color:var(--text)}
+.editorial li{color:var(--muted);margin-block:12px}
+.editorial code{font-size:.85em;overflow-wrap:anywhere}
+.empty-results{border:1px solid var(--line);padding:35px;margin-top:20px}
+@media(min-width:1600px){.product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.featured .product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:899px){
+ .home-store .import-copy h2{font-size:76px}
+ .store-page main{padding-top:70px}.page-intro{padding-block:60px 40px}.page-intro h1{font-size:clamp(48px,8.5vw,76px)}
+ .header .nav,.header>.header-link{display:none}.site-menu{display:block;justify-self:end}
+ .site-menu summary{font:12px 'IBM Plex Mono',monospace;list-style:none;cursor:pointer;padding:12px 0 12px 20px;min-height:44px;color:var(--text)}
+ .site-menu summary::-webkit-details-marker{display:none}.site-menu summary:after{content:' +';color:var(--accent)}.site-menu[open] summary:after{content:' −'}
+ .site-menu nav{position:absolute;top:69px;left:0;right:0;background:#0d151c;border-block:1px solid var(--line);padding:14px var(--gutter) 24px;display:grid;box-shadow:0 20px 30px #080a0d99}
+ .site-menu nav a{padding:13px 0;font:14px 'IBM Plex Mono',monospace;border-bottom:1px solid var(--line)}
+ .site-menu nav a[aria-current=page]{color:var(--accent)}
+ .store-section{padding-block:45px 70px}.product-card{padding:24px}.card-visual{height:195px}.product-card h3{font-size:34px}.product-card .card-summary{font-size:15px;min-height:72px}
+ .card-bottom{align-items:start;flex-direction:column;gap:12px}.intro-bottom{align-items:start;flex-direction:column;gap:25px}
+ .featured-heading{align-items:start;flex-direction:column}.featured-heading .lead{max-width:620px}
+ .store-callout{align-items:start;flex-direction:column;padding-block:45px}.store-callout .button{white-space:normal}
+ .resource-layout{grid-template-columns:1fr;gap:45px}.guide-list li{grid-template-columns:32px 1fr;gap:20px}.guide-list .text-link{grid-column:2}
+ .editorial{padding-block:45px 70px}.footer .footer-links{gap:10px 24px}
+}
+@media(max-width:599px){
+ .home-store .import-copy h2{font-size:62px}
+ .product-grid{grid-template-columns:1fr}.product-card{padding:25px 22px}.product-card .card-summary{min-height:0}.card-bottom{flex-direction:row;align-items:flex-end}
+ .page-intro h1{font-size:clamp(43px,11vw,62px)}.page-intro .lead{font-size:16px}.card-visual{height:205px}.product-card h3{font-size:36px}
+ .store-section .catalog-filters button{font-size:10px;padding-inline:12px}.guide-list h2{font-size:25px}.guide-list p{font-size:14px}
+ .featured .product-card .card-summary{min-height:0}.catalog-note{font-size:10px}.editorial h2{font-size:28px}
+}
+@media(prefers-reduced-motion:reduce){.product-card:hover .kit-object{transform:none}.kit-object{transition:none}}
+html[data-reduced-motion=true] .product-card:hover .kit-object{transform:none}

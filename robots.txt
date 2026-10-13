@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /mobile-preview.html
+Sitemap: https://devkitclub.github.io/sitemap.xml

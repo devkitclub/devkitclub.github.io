@@ -1,65 +1,64 @@
 # DevKit Club website
 
-A full-width static homepage prepared for GitHub Pages. No build step, backend, or package installation is required to run it.
+Static multi-page storefront at https://devkitclub.github.io/ — no backend, cart, account system, or runtime build service.
 
-## Preview
+## Edit and preview
 
-Open `index.html` in a browser, or serve this directory locally:
+Serve the repository root over HTTP because navigation uses root-relative URLs:
 
 ```sh
 python3 -m http.server 8000
 ```
 
-Visit `http://localhost:8000`. Stop the server with Ctrl+C. The separately supplied `devkit-club-preview.html` embeds the assets and can also be opened directly. For the complete scroll experience, open that file in a regular browser; some document-preview panes disable scripts.
+Open http://localhost:8000. `mobile-preview.html` offers selectable viewport sizes and pages for responsive checks; it is noindex and is not device emulation.
 
-## Files
+## Content architecture
 
-- `index.html`: homepage, tool preview, setup, ImportKit spotlight, ten-concept catalog, engineering standards, proposed validation sequence, updates, and FAQ
-- `styles.css`: full-width responsive layout, local typography, dark color system
-- `objects.css`: CLI styling, responsive concept catalog, terminal slab, exploded pipeline, and isolated packet geometry
-- `script.js`: stack selection, copy controls, header behavior, concept filters/deep links, and signup link
-- `motion.js`: GSAP introduction, pointer response, 3D scroll choreography, desktop pinning, rolling step numbers, motion preference
-- `site-config.js`: public email signup URL configuration
-- `privacy.html`: privacy notice
-- `assets/hero-background.webp`: previous background, retained as an unused asset; the new hero uses CSS geometry
-- `assets/fonts/`: Chivo and IBM Plex Mono font files
-- `assets/vendor/`: GSAP 3.15.0 and ScrollTrigger, bundled locally
-- `assets/licenses/`: font licenses and third-party notices
-- `DESIGN.md`: visual and motion specification
-- `.nojekyll`: direct serving without Jekyll processing
+- `index.html`: preserved terminal hero, featured products, RepoReady Lite workbench and sticky setup, ImportKit layered animation, kit contents, newsletter, FAQ
+- `data/products.js`: single public source for ten product identities, descriptions, proposed prices, categories, compatibility, availability, and guarded checkout links
+- `scripts/build-pages.cjs`: build-time HTML templates for the store, ten product pages, free tools, guides, about, support, privacy, terms, refunds, and 404; also updates the shared header/footer and featured homepage cards
+- `storefront.css`, `product.css`: extensions of the existing full-width Chivo / IBM Plex Mono, cyan, near-black design
+- `shared.js`: native mobile menu behavior, header transparency, signup links, lightweight-page motion preference
+- `storefront.js`: progressive category filters with URL state; all cards remain available without JavaScript
+- `product.js`: command copying and an additional runtime checkout guard
+- `script.js`: original homepage language switch, copy controls, newsletter
+- `motion.js`, `objects.css`, `mobile.css`: retained 3D hero, scroll scenes, phone layout, reduced-motion fallback
+- `site-config.js`: public MailerLite URL; no secrets
 
-## What changed in this revision
+After editing catalog data or page templates, regenerate the static files and commit both source and generated output:
 
-The dark Chivo / IBM Plex Mono system and full-width chapters are retained. Monospaced navigation, path labels, square filter controls, an expandable file-list catalog, and small status readouts add CLI character without turning the page into a fake command interface. The header remains transparent only over the hero.
+```sh
+node scripts/build-pages.cjs
+```
 
-The hero now contains a code-native, six-sided terminal slab with a screen, metal bezel, side vents, and depth. Fine-pointer movement tilts an inner rig; scrolling rotates a separate outer rig. ImportKit uses four 3D pipeline layers that spread apart on scroll. Three isolated packet cubes converge and rotate through the engineering section. No Three.js, WebGL, image request, or additional dependency is required.
+No Node dependencies are needed to generate pages. GitHub Pages serves the committed HTML directly. Important descriptions, prices, requirements, and notification links work without JavaScript.
 
-The October 10 premium-systems catalog replaces the old generic Pro teaser. All ten candidates are clearly marked as concepts; ImportKit is the first validation hypothesis, and ReleaseKit is the smaller paid experiment. The Data / Infrastructure / SaaS filters update counts, and each product expands to show its proposed scope and failure tests. Concept deep links reveal their target even after filtering. There are no invented launch dates, prices, achieved demonstrations, or checkout flows.
+## Product availability and checkout
 
-Motion also retains masked text entrances, section rules, a tilting code surface, a pinned setup sequence, rolling numbers, and a closing CTA reveal. Phone styling is in `mobile.css`: compact pinned setup, horizontal step navigation, wrapping commands, larger touch targets, and a smaller hero. Setup pinning is enabled when the measured content fits the viewport; short screens use sticky navigation with normal-flow instructions. The ImportKit object pins separately on phones when it fits. Width and language changes rebuild the scene, while mobile toolbar-only height changes do not interrupt it. System or manual reduced motion removes pinning, pointer listeners, and GSAP choreography. Touch devices do not require hover. No perpetual animation loop runs for decorative objects; movement is input-driven. DOM checks passed; rendered phone layout and scroll smoothness still need device review.
+ReleaseKit 1.0.1 content was checked against its private README, quickstart, validation evidence, and draft license/support documents on October 13, 2026. Only descriptions and a short setup excerpt are public; no private toolkit source or downloadable archive is included.
 
-## Email signup
+ReleaseKit remains a preview. The other nine product pages describe the supplied catalog's intended scope and are marked coming soon. Every listed premium price is proposed; RepoReady Lite is available free. No public purchase link currently collects payment.
 
-The website links to the MailerLite-hosted signup form:
+`canPurchase()` requires all of these:
 
-https://preview.mailerlite.io/forms/2704240/201068731093223124/share
+- `availability: 'available'`
+- `deliveryVerified: true`
+- `termsApproved: true`
+- `priceConfirmed: true`, a positive numeric USD price
+- A valid HTTPS checkout URL on `devkitclub.lemonsqueezy.com`
 
-The URL is configured in `site-config.js` and in the HTML updates link so signup also works without JavaScript. Keep both URLs synchronized if the form changes. No API key or embedded provider script is used.
+The ReleaseKit checkout URL is saved in the catalog but not exposed as a purchase action. Before activation, confirm the actual downloadable ZIP and buyer fulfillment, final price, license, private support contact, update period, and refund terms. The current private product documents still identify the terms as drafts. Do not switch flags based only on a successful test checkout.
 
-The owner reported a successful subscription on October 11, 2026. Confirmation delivery, unsubscribe behavior, and welcome automation have not been independently verified. The provider handles form validation and subscriptions; the website does not claim signup success itself.
+After verification, update the catalog, current informational policy pages, and storefront availability note in the generator together, then rebuild. Never publish the private premium repository or package to provide delivery.
 
-## GitHub Pages
+## Preserved behavior
 
-Source is in `devkitclub/devkitclub.github.io`, targeting https://devkitclub.github.io. Phase 1 completion was confirmed by the owner. Check the repository’s Pages deployment status for each change. All internal paths are relative.
+Desktop retains the pointer-reactive six-sided terminal and scrolling monospace backdrop; phones hide the terminal. Setup uses native sticky scenes when content fits, falling back to normal instructions and sticky navigation on short screens. ImportKit retains its four-layer scroll animation. System or manual reduced motion removes pinning and choreography. New pages load neither GSAP nor ScrollTrigger.
 
-## Verification and limits
+MailerLite signup remains at https://preview.mailerlite.io/forms/2704240/201068731093223124/share. Signup opens the provider form without embedded tracking or API credentials; there is no product-specific subscription claim.
 
-October 12 mobile repair: phone scenes now use native CSS sticky containers with scroll-driven transforms, avoiding competing GSAP pin offsets. Setup steps exit fully before the next enters, and the stage clips moving text. The hero uses reactive decorative monospace text, with the 3D terminal visible only on desktop. Changed assets have versioned URLs to avoid cached CSS/JS mismatches. `mobile-preview.html` provides selectable viewport frames for live responsive browser checks; it is not a physical-device emulator. The existing MailerLite connection is preserved.
+## Deployment and verification
 
-JavaScript syntax, HTML local links and fragments, both stylesheets, concept counts/filters/deep links, pointer response and cleanup, actual DOM controls, signup fallbacks, and motion lifecycle/step navigation were checked. No supported browser-preview tool is available in this environment, so rendered desktop/mobile layout, physical perspective, scroll smoothness, and Lighthouse have not been verified. Review the standalone preview in a browser before publishing.
+Commit to `main` in `devkitclub/devkitclub.github.io`, then verify the GitHub Pages deployment. Keep changed CSS/JS URLs versioned to prevent mixed cached revisions.
 
-Existing RepoReady Lite content follows its README reviewed on 2026-10-10, blob `e0a79c1a72d3d4a158748ceb8e9b1806a84354b0`; the repository was not revalidated in this revision. The code shown is a labeled excerpt, with complete templates linked on GitHub. Roadmap content follows the supplied `02-devkit-club-premium-top-10.md`, dated 2026-10-10. Proposed demos and engineering standards are goals, not completed results.
-
-## Maintenance
-
-There are no runtime CDN calls, analytics scripts, accounts, or backend services. Static fonts and the two animation libraries are bundled, with attribution. `devkit-reduce-motion` is the only browser storage written by this revision. The previous `devkit-theme` preference is no longer read or written.
+Check internal links and fragments, metadata and headings, JavaScript syntax, category filters, language switching, copy behavior, checkout gating, mobile navigation, desktop and phone layout, sticky scenes, and reduced motion. Browser viewport checks do not replace physical iOS/Android testing.

@@ -109,7 +109,6 @@
       gsap.utils.toArray('.kit-number').forEach(number => {
         gsap.from(number,{y:20,rotationX:-80,transformPerspective:500,duration:.75,ease:'power3.out',scrollTrigger:{trigger:number.closest('.kit-row'),start:'top 94%',toggleActions:'play none none reverse'}});
       });
-      gsap.from('.validation-sequence li',{y:45,opacity:.15,stagger:.14,duration:.65,ease:'power2.out',scrollTrigger:{trigger:'.validation-sequence',start:'top 88%',end:'bottom 65%',scrub:1}});
     });
     responsive = gsap.matchMedia();
     responsive.add('(min-width: 320px)', () => {
